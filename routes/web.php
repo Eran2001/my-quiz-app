@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\QuizResultController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,6 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::post('quizzes/{quiz}/submit', [QuizController::class, 'submit'])->name('quizzes.submit');
     route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
     route::get('/quiz-history', [QuizResultController::class, 'index'])->middleware('auth')->name('quiz.history');
+    Route::get('/quizzes', [QuizController::class, 'index'])->name('quiz.list');
+    Route::get('/quiz/{quiz}/take', [QuizController::class, 'take'])->name('quiz.take');
+    Route::post('/quiz/{quiz}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
 });
 
 route::middleware('admin')->group(function () {
@@ -33,6 +37,10 @@ route::middleware('admin')->group(function () {
     Route::get('/admin-dashboard', [AdminDashboardController::class, 'index']);
     Route::get('/admin-dashboard', [AdminDashboardController::class, 'index']);
     Route::get('/admin-analytics', [AdminAnalyticsController::class, 'index']);
+    Route::get('/admin/quiz/create', [QuizController::class, 'create'])->name('admin.quizzes.create');
+    Route::post('/admin/quiz/store', [QuizController::class, 'store'])->name('admin.quizzes.store');
+    Route::get('/admin/quiz/{quiz}/question/create', [QuestionController::class, 'create'])->name('admin.questions.create');
+    Route::post('/admin/quiz/{quiz}/question/store', [QuestionController::class, 'store'])->name('admin.questions.store');
 });
 
 require __DIR__.'/auth.php';

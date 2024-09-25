@@ -9,6 +9,7 @@ class Quiz extends Model
 {
     use HasFactory;
 
+    public mixed $id;
     protected $fillable = ['title', 'description'];
 
     public function questions(): \Illuminate\Database\Eloquent\Relations\HasMany
